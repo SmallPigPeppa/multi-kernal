@@ -31,7 +31,7 @@ class MultiKernal(LightningModule):
                  warmup_epochs=10,
                  warmup_start_lr=0.003,
                  min_lr=0.0,
-                 classifier_lr=0.1,fix_encoder=True, **kwargs):
+                 classifier_lr=0.1, fix_encoder=True, **kwargs):
 
         super().__init__()
         weight_path = 'https://pl-bolts-weights.s3.us-east-2.amazonaws.com/simclr/bolts_simclr_imagenet/simclr_imagenet.ckpt'
@@ -60,7 +60,7 @@ class MultiKernal(LightningModule):
         self.warmup_start_lr = warmup_start_lr
         self.min_lr = min_lr
         self.classifier_lr = classifier_lr
-        self.fix_encoder=fix_encoder
+        self.fix_encoder = fix_encoder
 
     @property
     def learnable_params(self) -> List[Dict[str, Any]]:
@@ -76,7 +76,7 @@ class MultiKernal(LightningModule):
         updated_params = list()
         fixed_wd_params = list()
         for name, param in self.encoder.named_parameters():
-            if name =="encoder.conv1.weight":
+            if name == "encoder.conv1.weight":
                 updated_params.append(param)
             else:
                 fixed_wd_params.append(param)
@@ -168,7 +168,7 @@ class MultiKernal(LightningModule):
         x, y = batch
         logits = self(x)
         loss = F.nll_loss(logits, y)
-        self.log("train_loss", loss)
+        self.log("train_loss", loss, on_epoch=True, sync_dist=True)
         return loss
 
     def evaluate(self, batch, stage=None):
@@ -178,8 +178,8 @@ class MultiKernal(LightningModule):
         preds = torch.argmax(logits, dim=1)
         acc = accuracy(preds, y)
         if stage:
-            self.log(f"{stage}_loss", loss, prog_bar=False)
-            self.log(f"{stage}_acc", acc, prog_bar=False)
+            self.log(f"{stage}_loss", loss, on_epoch=True, sync_dist=True)
+            self.log(f"{stage}_acc", acc, on_epoch=True, sync_dist=True)
 
     def validation_step(self, batch, batch_idx):
         self.evaluate(batch, "val")
@@ -190,12 +190,11 @@ class MultiKernal(LightningModule):
 
 if __name__ == '__main__':
     from args import parse_args
-    args=parse_args()
+
+    args = parse_args()
     m = MultiKernal(args)
     # print(m.encoder)
     # for name, param in m.named_parameters():
     #     print(name)
-    a=torch.rand([2,3,32,32])
-    b=m(a)
-
-
+    a = torch.rand([2, 3, 32, 32])
+    b = m(a)
