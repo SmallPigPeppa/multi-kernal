@@ -100,7 +100,6 @@ if __name__=='__main__':
 
     trainer = Trainer.from_argparse_args(
         args,
-        gpus=[7],
         logger=wandb_logger if args.wandb else None,
         callbacks=callbacks,
         checkpoint_callback=False,

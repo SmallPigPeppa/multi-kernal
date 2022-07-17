@@ -76,7 +76,7 @@ class MultiKernal(LightningModule):
         updated_params = list()
         fixed_wd_params = list()
         for name, param in self.encoder.named_parameters():
-            if name == "encoder.conv1.weight":
+            if 'conv1' in name and 'layer' not in name:
                 updated_params.append(param)
             else:
                 fixed_wd_params.append(param)
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     args = parse_args()
     m = MultiKernal(args)
     # print(m.encoder)
-    # for name, param in m.named_parameters():
-    #     print(name)
-    a = torch.rand([2, 3, 32, 32])
-    b = m(a)
+    for name, param in m.named_parameters():
+        print(name)
+    # a = torch.rand([2, 3, 32, 32])
+    # b = m(a)
