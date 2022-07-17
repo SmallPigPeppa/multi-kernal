@@ -11,7 +11,7 @@ python3 pretrain.py \
     --classifier_lr 0.1 \
     --weight_decay 1e-5 \
     --batch_size 256 \
-    --num_workers 5 \
+    --num_workers 8 \
     --name cifar100 \
     --project multi-resolution \
     --entity pigpeppa \
