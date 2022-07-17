@@ -73,8 +73,8 @@ if __name__=='__main__':
     img_transform = transforms.Compose([transforms.Resize(args.image_size), transforms.ToTensor(),transforms.Normalize(mean, std)])
     # transforms.CenterCrop(size=96)
     if args.dataset=='cifar100':
-        train_dataset = torchvision.datasets.CIFAR100(root=args.data_dir, train=True, transform=img_transform,download=False)
-        test_dataset = torchvision.datasets.CIFAR100(root=args.data_dir, train=False,transform=img_transform,download=False)
+        train_dataset = torchvision.datasets.CIFAR100(root=args.data_dir, train=True, transform=img_transform,download=True)
+        test_dataset = torchvision.datasets.CIFAR100(root=args.data_dir, train=False,transform=img_transform,download=True)
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers, pin_memory=True)
     test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=True,num_workers=args.num_workers,pin_memory=True)
     model = MultiKernal(**args.__dict__)
