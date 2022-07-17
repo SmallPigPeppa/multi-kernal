@@ -40,9 +40,9 @@ class MultiKernal(LightningModule):
         simclr = SimCLR.load_from_checkpoint(weight_path, strict=False)
         self.encoder = simclr.encoder
 
-        # change kernal
-        self.encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
-        self.encoder.maxpool = nn.Identity()
+        # # change kernal
+        # self.encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
+        # self.encoder.maxpool = nn.Identity()
 
 
         # mlp
