@@ -3,7 +3,7 @@ python3 pretrain.py \
     --data_dir ~/torch_ds/ \
     --image_size 224 \
     --max_epochs 200 \
-    --gpus 7 \
+    --gpus 0 \
     --precision 16 \
     --optimizer sgd \
     --exclude_bias_n_norm \
