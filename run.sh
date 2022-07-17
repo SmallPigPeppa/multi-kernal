@@ -1,6 +1,6 @@
 python3 pretrain.py \
     --dataset cifar100 \
-    --data_dir /home/admin/torch_ds/ \
+    --data_dir ～/torch_ds/ \
     --image_size 224 \
     --max_epochs 200 \
     --gpus [4,5] \
