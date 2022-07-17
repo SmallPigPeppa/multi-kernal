@@ -161,8 +161,7 @@ class MultiKernal(LightningModule):
                 z = self.encoder(x)
         else:
             z = self.encoder(x)
-        print(z)
-        y = self.classifier(z)
+        y = self.classifier(z[-1])
         return F.log_softmax(y, dim=1)
 
     def training_step(self, batch, batch_idx):
@@ -193,6 +192,10 @@ if __name__ == '__main__':
     from args import parse_args
     args=parse_args()
     m = MultiKernal(args)
-    print(m.encoder)
-    for name, param in m.named_parameters():
-        print(name)
+    # print(m.encoder)
+    # for name, param in m.named_parameters():
+    #     print(name)
+    a=torch.rand([2,3,32,32])
+    b=m(a)
+
+
