@@ -43,7 +43,7 @@ class MultiKernal(LightningModule):
         # change kernal
         self.encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
         self.encoder.maxpool = nn.Identity()
-        self.encoder.to(device)
+
 
         # mlp
         dim_in = 2048
@@ -86,7 +86,7 @@ class MultiKernal(LightningModule):
         assert len(updated_params) + len(fixed_wd_params) == len(all_params), "Sanity check failed."
 
         return [
-            {"name": "encoder_fixed", "params": fixed_wd_params, "weight_decay": 0., "lr": 0.},
+            {"name": "encoder_fixed", "params": fixed_wd_params, "weight_decay": self.weight_decay, "lr": self.lr},
             {"name": "encoder_updated", "params": updated_params, "weight_decay": self.weight_decay, "lr": self.lr},
             {
                 "name": "classifier",
