@@ -82,27 +82,17 @@ class MultiKernal(LightningModule):
                 fixed_wd_params.append(param)
         print(len(updated_params), len(fixed_wd_params), len(all_params))
         assert len(updated_params) + len(fixed_wd_params) == len(all_params), "Sanity check failed."
-        if self.fix_encoder:
-            return [
-                {"name": "encoder_fixed", "params": self.classifier.parameters(), "weight_decay": 0.,"lr": 0. },
-                {
-                    "name": "classifier",
-                    "params": self.classifier.parameters(),
-                    "lr": self.classifier_lr,
-                    "weight_decay": 0,
-                },
-            ]
-        else:
-            return [
-                {"name": "encoder_fixed", "params": fixed_wd_params, "weight_decay": 0., "lr": 0.},
-                {"name": "encoder_updated", "params": updated_params, "weight_decay": self.weight_decay, "lr": self.lr},
-                {
-                    "name": "classifier",
-                    "params": self.classifier.parameters(),
-                    "lr": self.classifier_lr,
-                    "weight_decay": 0,
-                },
-            ]
+
+        return [
+            {"name": "encoder_fixed", "params": fixed_wd_params, "weight_decay": 0., "lr": 0.},
+            {"name": "encoder_updated", "params": updated_params, "weight_decay": self.weight_decay, "lr": self.lr},
+            {
+                "name": "classifier",
+                "params": self.classifier.parameters(),
+                "lr": self.classifier_lr,
+                "weight_decay": 0,
+            },
+        ]
 
     def configure_optimizers(self) -> Tuple[List, List]:
         """Collects learnable parameters and configures the optimizer and learning rate scheduler.
@@ -166,7 +156,11 @@ class MultiKernal(LightningModule):
             return [optimizer], [scheduler]
 
     def forward(self, x):
-        z = self.encoder(x)
+        if self.fix_encoder:
+            with torch.no_grad():
+                z = self.encoder(x)
+        else:
+            z = self.encoder(x)
         y = self.classifier(z)
         return F.log_softmax(y, dim=1)
 

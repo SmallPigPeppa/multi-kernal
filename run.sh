@@ -1,9 +1,9 @@
 python3 pretrain.py \
     --dataset cifar100 \
     --data_dir ~/torch_ds \
-    --image_size 32 \
+    --image_size 224 \
     --max_epochs 200 \
-    --gpus 0 \
+    --gpus [4,5] \
     --precision 16 \
     --optimizer sgd \
     --exclude_bias_n_norm \
