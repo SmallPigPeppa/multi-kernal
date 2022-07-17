@@ -41,9 +41,9 @@ class MultiKernal(LightningModule):
         self.encoder = simclr.encoder
 
         # change kernal
-        # self.encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
-        # self.encoder.maxpool = nn.Identity()
-        # self.encoder.to(device)
+        self.encoder.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=2, bias=False)
+        self.encoder.maxpool = nn.Identity()
+        self.encoder.to(device)
 
         # mlp
         dim_in = 2048
