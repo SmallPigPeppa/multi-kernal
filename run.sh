@@ -13,7 +13,7 @@ python3 pretrain.py \
     --weight_decay 1e-5 \
     --batch_size 256 \
     --num_workers 5 \
-    --name cifar100-v1.0 \
+    --name cifar100-v2.0 \
     --project multi-resolution \
     --entity pigpeppa \
     --wandb
