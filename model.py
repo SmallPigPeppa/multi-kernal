@@ -161,6 +161,7 @@ class MultiKernal(LightningModule):
                 z = self.encoder(x)
         else:
             z = self.encoder(x)
+        print(z)
         y = self.classifier(z)
         return F.log_softmax(y, dim=1)
 
