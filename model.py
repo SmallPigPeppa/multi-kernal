@@ -31,7 +31,9 @@ class MultiKernal(LightningModule):
                  warmup_epochs=10,
                  warmup_start_lr=0.003,
                  min_lr=0.0,
-                 classifier_lr=0.1, fix_encoder=True, **kwargs):
+                 classifier_lr=0.1,
+                 fix_encoder=True,
+                 **kwargs):
 
         super().__init__()
         weight_path = 'https://pl-bolts-weights.s3.us-east-2.amazonaws.com/simclr/bolts_simclr_imagenet/simclr_imagenet.ckpt'
@@ -192,9 +194,13 @@ if __name__ == '__main__':
     from args import parse_args
 
     args = parse_args()
-    m = MultiKernal(args)
+    print(args)
+    m = MultiKernal(**args.__dict__)
     # print(m.encoder)
-    for name, param in m.named_parameters():
-        print(name)
+    # for name, param in m.named_parameters():
+    #     print(name)
+    print(m.fix_encoder)
+    m.learnable_params
+    print()
     # a = torch.rand([2, 3, 32, 32])
     # b = m(a)

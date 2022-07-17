@@ -16,5 +16,4 @@ python3 model.py \
     --name cifar100 \
     --project multi-resolution \
     --entity pigpeppa \
-    --wandb \
-    --fix_encoder
+    --wandb

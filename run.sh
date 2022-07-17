@@ -1,7 +1,7 @@
 python3 pretrain.py \
     --dataset cifar100 \
     --data_dir ~/torch_ds/ \
-    --image_size 224 \
+    --image_size 32 \
     --max_epochs 200 \
     --gpus 6 \
     --precision 16 \
